@@ -1,0 +1,64 @@
+openapi: 3.0.4
+info:
+  title: Book Management API - OpenAPI 3.0
+  description: |-
+    This is a sample Book Management API based on the OpenAPI 3.0 specification.
+    Built using Spring Boot.
+
+    Some useful links:
+    - [Springdoc OpenAPI GitHub](https://github.com/springdoc/springdoc-openapi)
+    - [Spring Boot Docs](https://docs.spring.io/spring-boot/)
+  version: 1.0.0
+  termsOfService: https://example.com/terms
+  contact:
+    email: support@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+paths:
+  /api/books:
+    get:
+      summary: Get all books
+      responses:
+        '200':
+          description: A list of books
+    post:
+      summary: Add a new book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookDTO'
+      responses:
+        '200':
+          description: Book added
+
+  /api/books/{title}:
+    get:
+      summary: Get book by title
+      parameters:
+        - name: title
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single book
+
+components:
+  schemas:
+    BookDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+        price:
+          type: integer
+        errorMessage:
+          type: string
