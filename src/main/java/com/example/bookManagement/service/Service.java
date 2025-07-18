@@ -5,6 +5,7 @@ import com.example.bookManagement.entity.Book;
 import com.example.bookManagement.repository.Repo;
 import com.example.bookManagement.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
 @org.springframework.stereotype.Service
 public class Service {
@@ -42,6 +43,9 @@ public class Service {
         );
 //        Book book1 = repository.update(book);
 //         return mapper.mapBookToBookDTO(book1);
-
+    }
+    public List<BookDTO> getAllBooks() {
+        List<Book> books = repository.findAll();
+        return mapper.mapBooksToBookDTOs(books);
     }
 }

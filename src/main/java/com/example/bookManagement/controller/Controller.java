@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/book")
@@ -17,6 +18,12 @@ public class Controller {
         // constructor inject
     Controller(Service service) {
         this.service = service;
+    }
+
+    @GetMapping("/getAllBooks")
+    public ResponseEntity<List<BookDTO>> getAllBooks(){
+        List<BookDTO> allBooks = service.getAllBooks();
+        return ResponseEntity.ok(allBooks);
     }
 
     @GetMapping("/getBook/{name}")
@@ -51,6 +58,7 @@ public class Controller {
     public ResponseEntity<String> updateBook(@RequestBody BookDTO bookDTO) {
         try {
             int row = service.updateBook(bookDTO);
+            if(row==0) throw new Exception("Empty/wrong id");
             return ResponseEntity.ok(row + " row updated with id " + bookDTO.getId());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -58,7 +66,8 @@ public class Controller {
         }
     }
 
-    //todo kafka
+    //todo kafka + central exception + logger + update test
+//
 
 
 }
