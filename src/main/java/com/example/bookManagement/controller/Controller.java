@@ -3,9 +3,13 @@ package com.example.bookManagement.controller;
 import com.example.bookManagement.dto.BookDTO;
 import com.example.bookManagement.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -20,8 +24,16 @@ public class Controller {
         this.service = service;
     }
 
+    @GetMapping("/page/getAllBooks")
+    public ResponseEntity<Page<BookDTO>> pageGetAllBooks(@RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "2") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BookDTO> bookDTOS = service.pageGetAllBooks(pageable);
+        return ResponseEntity.ok(bookDTOS);
+    }
+
     @GetMapping("/getAllBooks")
-    public ResponseEntity<List<BookDTO>> getAllBooks(){
+    public ResponseEntity<List<BookDTO>> getAllBooks() {
         List<BookDTO> allBooks = service.getAllBooks();
         return ResponseEntity.ok(allBooks);
     }
@@ -58,7 +70,7 @@ public class Controller {
     public ResponseEntity<String> updateBook(@RequestBody BookDTO bookDTO) {
         try {
             int row = service.updateBook(bookDTO);
-            if(row==0) throw new Exception("Empty/wrong id");
+            if (row == 0) throw new Exception("Empty/wrong id");
             return ResponseEntity.ok(row + " row updated with id " + bookDTO.getId());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

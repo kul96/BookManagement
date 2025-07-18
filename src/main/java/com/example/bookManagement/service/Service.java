@@ -5,7 +5,11 @@ import com.example.bookManagement.entity.Book;
 import com.example.bookManagement.repository.Repo;
 import com.example.bookManagement.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
+import java.util.stream.Stream;
 
 @org.springframework.stereotype.Service
 public class Service {
@@ -46,6 +50,14 @@ public class Service {
     }
     public List<BookDTO> getAllBooks() {
         List<Book> books = repository.findAll();
+//        List<BookDTO> bookDTOS = books.stream()
+//                                      .map(mapper::mapBookToBookDTO)
+//                                      .toList();
         return mapper.mapBooksToBookDTOs(books);
+    }
+
+    public Page<BookDTO> pageGetAllBooks(Pageable pageable) {
+        Page<Book> bookPage = repository.findAll(pageable);
+        return bookPage.map(mapper::mapBookToBookDTO);
     }
 }
