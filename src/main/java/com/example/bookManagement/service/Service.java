@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @org.springframework.stereotype.Service
 public class Service {
@@ -59,5 +58,11 @@ public class Service {
     public Page<BookDTO> pageGetAllBooks(Pageable pageable) {
         Page<Book> bookPage = repository.findAll(pageable);
         return bookPage.map(mapper::mapBookToBookDTO);
+    }
+    public List<BookDTO> getBookByAuthor(String author) {
+        List<Book> allByAuthor = repository.findAllByAuthor(author);
+        return allByAuthor.stream()
+                          .map(mapper::mapBookToBookDTO)
+                          .toList();
     }
 }

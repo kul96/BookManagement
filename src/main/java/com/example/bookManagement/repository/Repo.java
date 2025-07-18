@@ -7,7 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface Repo extends JpaRepository<Book, Integer> {
+    @Query("select b from Book b where b.author = ?1")
+    List<Book> findAllByAuthor(String author);
     @Transactional
     @Modifying
     @Query("delete from Book b where b.title = ?1")

@@ -23,6 +23,11 @@ public class Controller {
     Controller(Service service) {
         this.service = service;
     }
+    @GetMapping("/getBookByAuthor/{author}")
+    public ResponseEntity<List<BookDTO>> getBookByAuthor(@PathVariable String author){
+        List<BookDTO> books = service.getBookByAuthor(author);
+        return ResponseEntity.ok(books);
+    }
 
     @GetMapping("/page/getAllBooks")
     public ResponseEntity<Page<BookDTO>> pageGetAllBooks(@RequestParam(defaultValue = "0") int page,
@@ -38,10 +43,10 @@ public class Controller {
         return ResponseEntity.ok(allBooks);
     }
 
-    @GetMapping("/getBook/{name}")
-    public ResponseEntity<BookDTO> getBook(@PathVariable String name) {
+    @GetMapping("/getBook/{title}")
+    public ResponseEntity<BookDTO> getBook(@PathVariable String title) {
         try {
-            BookDTO bookDTO = service.getBook(name);
+            BookDTO bookDTO = service.getBook(title);
             return ResponseEntity.ok(bookDTO);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
