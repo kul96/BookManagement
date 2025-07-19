@@ -65,4 +65,12 @@ public class Service {
                           .map(mapper::mapBookToBookDTO)
                           .toList();
     }
+
+    public List<BookDTO> getByCriteria(String title, String author, Integer price) {
+        List<Book> result = repository.findAllByCriteria(title, author, price);
+//        return mapper.mapBooksToBookDTOs(result);
+        return result.stream()
+                     .map(book -> mapper.mapBookToBookDTO(book))
+                     .toList();
+    }
 }

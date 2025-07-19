@@ -23,6 +23,14 @@ public class Controller {
     Controller(Service service) {
         this.service = service;
     }
+
+    @GetMapping("/getByCriteria")
+    public ResponseEntity<List<BookDTO>> getBookByCriteria(@RequestParam(required = false) String title,
+                                                           @RequestParam(required = false) String author,
+                                                           @RequestParam(required = false) Integer price) {
+        var result = service.getByCriteria(title, author, price);
+        return ResponseEntity.ok(result);
+    }
     @GetMapping("/getBookByAuthor/{author}")
     public ResponseEntity<List<BookDTO>> getBookByAuthor(@PathVariable String author){
         List<BookDTO> books = service.getBookByAuthor(author);
