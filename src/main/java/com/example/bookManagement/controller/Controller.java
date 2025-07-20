@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +26,12 @@ public class Controller {
     @GetMapping("/getByCriteria")
     public ResponseEntity<List<BookDTO>> getBookByCriteria(@RequestParam(required = false) String title,
                                                            @RequestParam(required = false) String author,
-                                                           @RequestParam(required = false) Integer price) {
+                                                           @RequestParam(required = false) String price) {
         var result = service.getByCriteria(title, author, price);
         return ResponseEntity.ok(result);
     }
-    @GetMapping("/getBookByAuthor/{author}")
-    public ResponseEntity<List<BookDTO>> getBookByAuthor(@PathVariable String author){
+    @GetMapping("/getBookByAuthor")
+    public ResponseEntity<List<BookDTO>> getBookByAuthor(@RequestParam(required = false) String author){
         List<BookDTO> books = service.getBookByAuthor(author);
         return ResponseEntity.ok(books);
     }
@@ -51,15 +50,10 @@ public class Controller {
         return ResponseEntity.ok(allBooks);
     }
 
-    @GetMapping("/getBook/{title}")
-    public ResponseEntity<BookDTO> getBook(@PathVariable String title) {
-        try {
+    @GetMapping("/getBook")
+    public ResponseEntity<BookDTO> getBook(@RequestParam(required = false) String title) {
             BookDTO bookDTO = service.getBook(title);
             return ResponseEntity.ok(bookDTO);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest()
-                                 .body(new BookDTO(null, null, null, 0, e.getMessage()));
-        }
     }
 
     @PostMapping("/addBook")
@@ -68,27 +62,16 @@ public class Controller {
         return ResponseEntity.ok(resultBookDTO);
     }
 
-    @DeleteMapping("/deleteBook/{title}")
-    public ResponseEntity<String> deleteBook(@PathVariable String title) {
-        try {
-            long rows = service.deleteBook(title);
-            return ResponseEntity.ok(rows + " row deleted ");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                 .body(e.getMessage());
-        }
+    @DeleteMapping("/deleteBook")
+    public ResponseEntity<String> deleteBook(@RequestParam(required = false) String title) {
+        var rows = service.deleteBook(title);
+        return ResponseEntity.ok(" total " + rows + " row deleted ");
     }
 
     @PutMapping("/updateBook")
     public ResponseEntity<String> updateBook(@RequestBody BookDTO bookDTO) {
-        try {
-            int row = service.updateBook(bookDTO);
-            if (row == 0) throw new Exception("Empty/wrong id");
-            return ResponseEntity.ok(row + " row updated with id " + bookDTO.getId());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                 .body(e.getMessage());
-        }
+        int row = service.updateBook(bookDTO);
+        return ResponseEntity.ok(row + " row updated with id " + bookDTO.getId());
     }
 
     //todo kafka + central exception + logger + update test
