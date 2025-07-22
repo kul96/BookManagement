@@ -1,6 +1,7 @@
 package com.example.bookManagement.controller;
 
 import com.example.bookManagement.dto.BookDTO;
+import com.example.bookManagement.kafka.BookProducer;
 import com.example.bookManagement.service.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,9 @@ public class Controller {
 
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);
     private final Service service;
+
+    @Autowired
+    private BookProducer bookProducer;
 
     @Autowired
         // constructor inject
@@ -53,6 +57,7 @@ public class Controller {
 
     @GetMapping("/getAllBooks")
     public ResponseEntity<List<BookDTO>> getAllBooks() {
+        bookProducer.send("book-events","Kafka message sent on topic 'book-events' by kuldeep");
         logger.info("Received request for get all book.");
         List<BookDTO> allBooks = service.getAllBooks();
         return ResponseEntity.ok(allBooks);
