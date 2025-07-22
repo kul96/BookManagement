@@ -1,5 +1,6 @@
 package com.example.bookManagement.kafka;
 
+import com.example.bookManagement.dto.BookDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,13 @@ public class BookProducer {
 
     private static final Logger logger = LoggerFactory.getLogger(BookProducer.class);
     @Autowired
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, BookDTO> kafkaTemplate;
 
-    public BookProducer(KafkaTemplate<String, String> kafkaTemplate) {
+    public BookProducer(KafkaTemplate<String, BookDTO> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void send(String topic, String message) {
+    public void send(String topic, BookDTO message) {
         logger.info("Sending message '{}' on topic '{}'", message, topic);
         kafkaTemplate.send(topic, message);
     }

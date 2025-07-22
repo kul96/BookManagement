@@ -6,6 +6,7 @@ import com.example.bookManagement.service.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,9 @@ public class Controller {
 
     @Autowired
     private BookProducer bookProducer;
+
+    @Value("${app.kafka.topic.my-topic}")
+    private String topic;
 
     @Autowired
         // constructor inject
@@ -57,9 +61,10 @@ public class Controller {
 
     @GetMapping("/getAllBooks")
     public ResponseEntity<List<BookDTO>> getAllBooks() {
-        bookProducer.send("book-events","Kafka message sent on topic 'book-events' by kuldeep");
+//        bookProducer.send(topic,"Kafka message sent on topic 'book-events' by kuldeep");
         logger.info("Received request for get all book.");
         List<BookDTO> allBooks = service.getAllBooks();
+        bookProducer.send(topic,allBooks.get(0));
         return ResponseEntity.ok(allBooks);
     }
 
