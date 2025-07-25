@@ -24,7 +24,7 @@ public class Service {
     private Repo repository;
     private Mapper mapper;
 
-    @Autowired
+    @Autowired // no need to use this because there is only one constructor if more than one than use to remove ambiguity
         //Constructor inject
     Service(Repo repository, Mapper mapper) {
         this.repository = repository;

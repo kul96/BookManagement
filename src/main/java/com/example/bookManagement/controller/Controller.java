@@ -22,16 +22,16 @@ public class Controller {
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);
     private final Service service;
 
-    @Autowired
     private BookProducer bookProducer;
 
     @Value("${app.kafka.topic.my-topic}")
     private String topic;
 
-    @Autowired
         // constructor inject
-    Controller(Service service) {
+    Controller(Service service, BookProducer bookProducer) {
+//        @Autowired  // Tells Spring to use this constructor for injection but only constructor we don't need to annotate
         this.service = service;
+        this.bookProducer = bookProducer;
     }
 
     @GetMapping("/getByCriteria")
