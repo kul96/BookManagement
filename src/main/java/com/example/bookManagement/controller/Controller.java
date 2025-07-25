@@ -96,8 +96,6 @@ public class Controller {
         return ResponseEntity.ok(row + " row updated with id " + bookDTO.getId());
     }
 
-    //todo kafka + central exception(done) + logger(done) + update test
-//
 
 
 }
