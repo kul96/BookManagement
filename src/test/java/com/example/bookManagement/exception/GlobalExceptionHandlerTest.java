@@ -5,6 +5,7 @@ import com.example.bookManagement.kafka.BookProducer;
 import com.example.bookManagement.service.Service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Import(GlobalExceptionHandler.class)
 @WebMvcTest(Controller.class)
+@AutoConfigureMockMvc(addFilters = false ) // security skip
 class GlobalExceptionHandlerTest {
 
     @Autowired

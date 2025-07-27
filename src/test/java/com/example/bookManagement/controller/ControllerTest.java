@@ -5,6 +5,7 @@ import com.example.bookManagement.kafka.BookProducer;
 import com.example.bookManagement.service.Service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -21,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 //@ExtendWith(SpringExtension.class) // by default in @webmvctest (this is spring style not mockito )
 @WebMvcTest(Controller.class)
+@AutoConfigureMockMvc(addFilters = false ) // security skip
 class ControllerTest {
 
     @Autowired
