@@ -4,11 +4,13 @@ import com.example.bookManagement.dto.BookDTO;
 import com.example.bookManagement.entity.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Profile("dev") // if dev profile is set then this class bean created
 public class MapperImpl implements Mapper {
     private static final Logger logger = LoggerFactory.getLogger(MapperImpl.class);
 
