@@ -4,20 +4,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class Book {
 
     @Id
     @GeneratedValue
     private Integer id;
-
-    public Book() {
-    }
 
     @Column(unique = true)
     private String title;
@@ -28,21 +27,5 @@ public class Book {
         this.title = title;
         this.author = author;
         this.price = price;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public Integer getPrice() {
-        return price;
     }
 }

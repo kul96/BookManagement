@@ -5,7 +5,7 @@ import com.example.bookManagement.entity.Book;
 import com.example.bookManagement.exception.BookNotFoundException;
 import com.example.bookManagement.exception.DuplicateDataFoundException;
 import com.example.bookManagement.exception.TitleFoundNullException;
-import com.example.bookManagement.repository.Repo;
+import com.example.bookManagement.repository.BookRepo;
 import com.example.bookManagement.util.Mapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 class ServiceTest {
 
     @Mock
-    private Repo repository;
+    private BookRepo repository;
 
     @Mock
     private Mapper mapper;

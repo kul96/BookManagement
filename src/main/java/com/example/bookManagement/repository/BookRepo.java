@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface Repo extends JpaRepository<Book, Integer> {
+public interface BookRepo extends JpaRepository<Book, Integer> {
 //    @Query("select b from Book b where upper(b.title) = upper(?1) and upper(b.author) = upper(?2) and b.price = ?3")
 //    @Query("SELECT b FROM Book b " +
 //            "WHERE (:title IS NULL OR LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%'))) " +

@@ -5,7 +5,7 @@ import com.example.bookManagement.entity.Book;
 import com.example.bookManagement.exception.BookNotFoundException;
 import com.example.bookManagement.exception.DuplicateDataFoundException;
 import com.example.bookManagement.exception.TitleFoundNullException;
-import com.example.bookManagement.repository.Repo;
+import com.example.bookManagement.repository.BookRepo;
 import com.example.bookManagement.util.Mapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +22,12 @@ public class Service {
 //    private static final Logger log = LoggerFactory.getLogger(Service.class);
 // no need if @Slf4j is used . Auto generated same code at compile time
 
-    private Repo repository;
+    private BookRepo repository;
     private Mapper mapper;
 
     @Autowired // no need to use this because there is only one constructor if more than one than use to remove ambiguity
         //Constructor inject
-    Service(Repo repository, Mapper mapper) {
+    Service(BookRepo repository, Mapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
