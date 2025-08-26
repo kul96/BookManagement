@@ -74,6 +74,11 @@ public class Service {
             return row;
     }
 
+    /*
+     * value: The name of the cache.
+     * key: The key to store the value in the cache. You can use SpEL expressions (Spring Expression Language) here, like #id.
+     */
+//    @CachePut(value="cacheName", key = "#bookDTO.author")
     public int updateBook(BookDTO bookDTO) {
         log.info("Updating book with name : {}", bookDTO.getTitle());
         if (bookDTO.getTitle() == null || bookDTO.getTitle()
@@ -113,6 +118,7 @@ public class Service {
         return bookPage.map(mapper::mapBookToBookDTO);
     }
 
+    @Cacheable(value="cacheName", key = "#author")  //for update use @CachePut to update cache
     public List<BookDTO> getBookByAuthor(String author) {
         log.info("Fetching book with author : {}", author);
         if (author == null || author.isBlank()) {

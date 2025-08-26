@@ -2,6 +2,7 @@ package com.example.bookManagement.controller;
 
 import com.example.bookManagement.dto.BookDTO;
 import com.example.bookManagement.kafka.BookProducer;
+import com.example.bookManagement.service.CacheInspectionService;
 import com.example.bookManagement.service.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,8 @@ public class Controller {
 
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);
     private final Service service;
+    @Autowired
+    private CacheInspectionService cacheInspectionService;
 
     private BookProducer bookProducer;
 
@@ -96,6 +99,12 @@ public class Controller {
         logger.info("Received request for update book");
         int row = service.updateBook(bookDTO);
         return ResponseEntity.ok(row + " row updated with id " + bookDTO.getId());
+    }
+
+    @GetMapping("/getCache")
+    public ResponseEntity<String> getCacheDetails(@RequestParam String cacheName) {
+        String printCacheContent = cacheInspectionService.printCacheContent(cacheName);
+        return ResponseEntity.ok(printCacheContent);
     }
 
 
