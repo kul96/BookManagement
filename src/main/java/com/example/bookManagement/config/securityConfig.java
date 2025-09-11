@@ -1,8 +1,10 @@
 package com.example.bookManagement.config;
 
+import com.example.bookManagement.entity.Permission;
 import com.example.bookManagement.filter.JWTAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -20,6 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class securityConfig {
 
+    private static final String SCHEDULER_URL = "/api/scheduler/**";
+
     /*
      * Below is the only basic auth setup in which user details save in application.properties file
      * and all request is proceed and no pass/user save in database;
@@ -30,6 +34,14 @@ public class securityConfig {
                     .authorizeHttpRequests(auth ->
                                                    auth.requestMatchers("/h2-console/**", "/api/auth/getAuthenticate")
                                                        .permitAll()
+//                                                       .requestMatchers("/api/scheduler/getAllCronScheduler")
+//                                                       .hasRole(Role.USER.name())
+                                                       .requestMatchers(HttpMethod.GET, SCHEDULER_URL)
+                                                       .hasAuthority(Permission.USER_READ.name())
+                                                       .requestMatchers(HttpMethod.POST, SCHEDULER_URL)
+                                                       .hasAuthority(Permission.USER_WRITE.name())
+                                                       .requestMatchers(HttpMethod.PUT, SCHEDULER_URL)
+                                                       .hasAuthority(Permission.USER_WRITE.name())
                                                        .anyRequest()
                                                        .authenticated())
                     .httpBasic(Customizer.withDefaults()); //Enables Basic Authentication
