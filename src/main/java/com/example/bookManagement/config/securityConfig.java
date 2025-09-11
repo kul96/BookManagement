@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class securityConfig {
 
     private static final String SCHEDULER_URL = "/api/scheduler/**";
@@ -32,16 +34,16 @@ public class securityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity, JWTAuthFilter jwtAuthFilter) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(auth ->
-                                                   auth.requestMatchers("/h2-console/**", "/api/auth/getAuthenticate")
+                                                   auth.requestMatchers("/api/auth/getAuthenticate")
                                                        .permitAll()
 //                                                       .requestMatchers("/api/scheduler/getAllCronScheduler")
 //                                                       .hasRole(Role.USER.name())
-                                                       .requestMatchers(HttpMethod.GET, SCHEDULER_URL)
-                                                       .hasAuthority(Permission.USER_READ.name())
-                                                       .requestMatchers(HttpMethod.POST, SCHEDULER_URL)
-                                                       .hasAuthority(Permission.USER_WRITE.name())
-                                                       .requestMatchers(HttpMethod.PUT, SCHEDULER_URL)
-                                                       .hasAuthority(Permission.USER_WRITE.name())
+//                                                       .requestMatchers(HttpMethod.GET, SCHEDULER_URL)
+//                                                       .hasAuthority(Permission.USER_READ.name())
+//                                                       .requestMatchers(HttpMethod.POST, SCHEDULER_URL)
+//                                                       .hasAuthority(Permission.USER_WRITE.name())
+//                                                       .requestMatchers(HttpMethod.PUT, SCHEDULER_URL)
+//                                                       .hasAuthority(Permission.USER_WRITE.name())
                                                        .anyRequest()
                                                        .authenticated())
                     .httpBasic(Customizer.withDefaults()); //Enables Basic Authentication
