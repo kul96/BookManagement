@@ -1,10 +1,8 @@
 package com.example.bookManagement.config;
 
-import com.example.bookManagement.entity.Permission;
 import com.example.bookManagement.filter.JWTAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -35,6 +33,8 @@ public class securityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(auth ->
                                                    auth.requestMatchers("/api/auth/getAuthenticate")
+                                                       .permitAll()
+                                                       .requestMatchers("/api/users/**")
                                                        .permitAll()
 //                                                       .requestMatchers("/api/scheduler/getAllCronScheduler")
 //                                                       .hasRole(Role.USER.name())
