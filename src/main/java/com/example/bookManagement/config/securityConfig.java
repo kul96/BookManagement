@@ -18,8 +18,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
+@EnableWebSecurity  // for spring security
+@EnableMethodSecurity //for pre and post authorize
 public class securityConfig {
 
     private static final String SCHEDULER_URL = "/api/scheduler/**";
@@ -30,7 +30,7 @@ public class securityConfig {
      * */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity, JWTAuthFilter jwtAuthFilter) throws Exception {
-        httpSecurity.csrf(AbstractHttpConfigurer::disable)
+        httpSecurity.csrf(AbstractHttpConfigurer::disable) // Disable CSRF for APIs
                     .authorizeHttpRequests(auth ->
                                                    auth.requestMatchers("/api/auth/getAuthenticate")
                                                        .permitAll()
@@ -44,12 +44,20 @@ public class securityConfig {
 //                                                       .hasAuthority(Permission.USER_WRITE.name())
 //                                                       .requestMatchers(HttpMethod.PUT, SCHEDULER_URL)
 //                                                       .hasAuthority(Permission.USER_WRITE.name())
+                                                       .requestMatchers("api/book/getAllBooks")
+                                                       .permitAll()
+
+                                                       // All other endpoints must be authenticated
                                                        .anyRequest()
                                                        .authenticated())
-                    .httpBasic(Customizer.withDefaults()); //Enables Basic Authentication
+                    //Enables Basic Authentication
+                    .httpBasic(Customizer.withDefaults())
+                    // OAuth2 Login support
+                    .oauth2Login(Customizer.withDefaults());
+        // Inserts your JWT filter before Basic Auth filter
         httpSecurity.addFilterBefore(jwtAuthFilter,
                                      UsernamePasswordAuthenticationFilter.class
-        ); // Inserts your JWT filter before Basic Auth filter
+        );
         return httpSecurity.build();
         // from above setup both flow of filter (jwt + basic auth) run
     }
