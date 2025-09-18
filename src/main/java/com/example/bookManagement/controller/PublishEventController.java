@@ -4,6 +4,7 @@ import com.example.bookManagement.service.PublishEventService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,8 +18,8 @@ public class PublishEventController {
     }
 
     @GetMapping("/createEvent")
-    public ResponseEntity<String> createOrder() {
-        String order = service.createOrder();
+    public ResponseEntity<String> createOrder(@RequestParam int amount) {
+        String order = service.createOrder(amount);
         return ResponseEntity.ok(order);
     }
 }

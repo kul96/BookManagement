@@ -13,8 +13,8 @@ public class PublishEventService {
         this.publisher = publisher;
     }
 
-    public String createOrder() {
-        publisher.publishEvent(new OrderCreatedEvent("id1"));
+    public String createOrder(int amount) {
+        publisher.publishEvent(new OrderCreatedEvent("id1",amount));
         return "Order created";
     }
 }

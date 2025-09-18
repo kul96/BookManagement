@@ -7,5 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class OrderCreatedEvent {
     private String orderId;
+    int amount ;
 
 }
